@@ -31,8 +31,7 @@
               </template>
             </a-input>
           </FormItem>
-          <!-- <FormItem v-if="enableSmsCode" name="verifyCode"> -->
-          <FormItem name="verifyCode">
+          <FormItem v-if="enableSmsCode" name="verifyCode">
             <a-input
               v-model:value="loginForm.verifyCode"
               placeholder="短信验证码"
@@ -230,7 +229,7 @@ onUnmounted(() => {
     position: absolute;
     top: 0;
     right: 20px;
-    background: @color-primary;
+    background: @primary-color;
     font-size: 16px;
     color: #ffffff;
     padding: 4px 12px 6px;
@@ -276,20 +275,6 @@ onUnmounted(() => {
       height: 36px;
       font-size: 16px;
       font-weight: bold;
-    }
-    .code-row {
-      display: flex;
-      align-items: center;
-      .code-img {
-        height: 36px;
-        width: 102px;
-        margin-left: 16px;
-        flex-shrink: 0;
-        cursor: pointer;
-      }
-      .a-input {
-        flex: 1;
-      }
     }
   }
 }

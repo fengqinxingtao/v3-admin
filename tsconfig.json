@@ -10,7 +10,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "lib": ["esnext", "dom"],

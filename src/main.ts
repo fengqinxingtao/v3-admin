@@ -1,8 +1,10 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import { Button, Input } from 'ant-design-vue';
-import 'ant-design-vue/dist/antd.css';
-import '@/design/index.less';
+if (import.meta.env.DEV) {
+  import('ant-design-vue/dist/antd.less');
+}
+import './design/index.less';
 
 import router from '@/router';
 import store from '@/store';

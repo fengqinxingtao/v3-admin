@@ -1,35 +1,15 @@
 import { defineConfig, loadEnv } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import legacy from '@vitejs/plugin-legacy';
 import { resolve } from 'path';
+import { createVitePlugins } from './build/vitePlugin';
+import { generateModifyVars } from './build/generate/generateModifyVars';
 
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir);
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd());
-  const plugins = [
-    // 替换index.html中的env
-    {
-      name: 'plugin-html-env',
-      transformIndexHtml(html: string) {
-        return html.replace(/<%=\s+(\w+)\s+%>/g, (_match, key) => {
-          return `${env[key]}`;
-        });
-      },
-    },
-    vue(),
-  ];
-  // IE浏览器支持
-  if (Boolean(env.VITE_LEGACY)) {
-    plugins.push(
-      legacy({
-        targets: ['ie >= 10'],
-        additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-      }),
-    );
-  }
+  const isBuild = command === 'build';
 
   return {
     base: env.VITE_PUBLIC_PATH,
@@ -61,12 +41,12 @@ export default defineConfig(({ mode }) => {
     css: {
       preprocessorOptions: {
         less: {
-          charset: false,
-          additionalData: '@import "./src/design/variable.less";@import "./src/design/mixins.less";',
+          modifyVars: generateModifyVars(),
+          javascriptEnabled: true,
         },
       },
     },
-    plugins: plugins,
+    plugins: createVitePlugins(env, isBuild),
     build: {
       target: 'es2015',
       minify: 'terser',

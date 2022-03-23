@@ -74,11 +74,7 @@ instance.interceptors.response.use(
       // 系统停用
       window.location.replace(window.location.origin + '/' + data.data.url);
     } else if (message) {
-      Message.error({
-        key: 'GlobalHttpError',
-        duration: 3 * 1000,
-        content: message,
-      });
+      httpError(message);
     }
     return Promise.reject(data);
   },
@@ -119,7 +115,7 @@ function logoutConfirm() {
 
 function httpError(tip: string) {
   Message.error({
-    // key: 'GlobalHttpError',
+    key: 'GlobalHttpError11s',
     duration: 3,
     content: tip,
   });

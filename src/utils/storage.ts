@@ -1,10 +1,14 @@
+import { ThemeModeEnum } from '@/enums/app';
+
 /** BASE_URL转换成系统标志 */
 const SystemKey = import.meta.env.VITE_BASE_URL.toUpperCase().replaceAll('/', '').replaceAll('-', '_');
 
 /** sessionStorage */
 const KEY_TOKEN = 'AHF_' + SystemKey + '_TOKEN';
+/** localStorage */
 const KEY_DEVICE = 'AHF_' + SystemKey + '_DEVICE';
 const KEY_SIDEBAR = 'AHF_' + SystemKey + '_SIDEBAR';
+const KEY_THEME_MODE = 'AHF_' + SystemKey + '_THEME_MODE';
 
 /** token */
 export const Token = {
@@ -22,26 +26,39 @@ export const Token = {
 /** 设备ID */
 export const Device = {
   get() {
-    return sessionStorage.getItem(KEY_DEVICE);
+    return localStorage.getItem(KEY_DEVICE);
   },
   set(deviceId: string) {
-    sessionStorage.setItem(KEY_DEVICE, deviceId);
+    localStorage.setItem(KEY_DEVICE, deviceId);
   },
   clear() {
-    sessionStorage.removeItem(KEY_DEVICE);
+    localStorage.removeItem(KEY_DEVICE);
   },
 };
 
 /** 侧边栏状态 */
 export const SidebarStatus = {
-  get() {
-    const k = sessionStorage.getItem(KEY_SIDEBAR);
+  get(): boolean {
+    const k = localStorage.getItem(KEY_SIDEBAR);
     return k ? !!+k : true;
   },
-  set(flag: boolean) {
-    sessionStorage.setItem(KEY_SIDEBAR, flag + '');
+  set(flag: number) {
+    localStorage.setItem(KEY_SIDEBAR, flag + '');
   },
   clear() {
-    sessionStorage.removeItem(KEY_SIDEBAR);
+    localStorage.removeItem(KEY_SIDEBAR);
+  },
+};
+
+/** 主题状态 */
+export const ThemeMode = {
+  get(): ThemeModeEnum | undefined {
+    return localStorage.getItem(KEY_THEME_MODE) as ThemeModeEnum | undefined;
+  },
+  set(mode: ThemeModeEnum) {
+    localStorage.setItem(KEY_THEME_MODE, mode);
+  },
+  clear() {
+    localStorage.removeItem(KEY_THEME_MODE);
   },
 };
