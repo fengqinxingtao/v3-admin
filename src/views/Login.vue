@@ -44,7 +44,7 @@
                 <a-button
                   type="primary"
                   shape="round"
-                  :disabled="count !== 0 || loginForm.captcha == null || loginForm.captcha.length < 4"
+                  :disabled="count !== 0 || loginForm.captcha.length < 4"
                   @click="getPhoneVerifyCode"
                   >{{ count == 0 ? '获取验证码' : `重新获取(${count}s)` }}</a-button
                 >
@@ -72,16 +72,16 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useIntervalFn } from '@vueuse/core';
 
-const codeImgUrl = ref(null);
+const codeImgUrl = ref('');
 const loginFormRef = ref();
 const loginForm = reactive({
   appCode: import.meta.env.VITE_APP_CODE,
   captchaId: null, // 验证码ID
-  deviceId: null, // 设备指纹： 设备唯一ID
+  deviceId: '', // 设备指纹： 设备唯一ID
   deviceType: import.meta.env.VITE_DEVICE_TYPE, // 设备类型
   username: null,
-  password: null,
-  captcha: null, // 验证码
+  password: '',
+  captcha: '', // 验证码
   verifyCode: null,
 });
 const count = ref(0);
@@ -162,7 +162,7 @@ function getCountDown() {
       username: loginForm.username,
     })
     .then((res) => {
-      if (res.success && res.data) {
+      if (res.data) {
         count.value = res.data.retry;
         startTimer();
       }
@@ -181,7 +181,7 @@ function login() {
     http
       .post('/authentication/login', params)
       .then((res) => {
-        store.dispatch('setLoginInfo', data);
+        store.dispatch('setLoginInfo', res.data);
         router.replace('/dashboard');
       })
       .catch((err) => {

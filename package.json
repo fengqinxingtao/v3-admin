@@ -12,12 +12,12 @@
     "reinstall": "rimraf yarn.lock && rimraf package.lock.json && rimraf node_modules && yarn"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "@fingerprintjs/fingerprintjs": "^3.3.3",
     "@vueuse/core": "^8.1.2",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.26.1",
     "crypto-js": "^4.1.1",
-    "js-cookie": "^3.0.1",
     "normalize.css": "^8.0.1",
     "vue": "^3.2.25",
     "vue-router": "4",
