@@ -1,0 +1,107 @@
+html {
+  overflow: hidden;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: visible !important;
+  overflow-x: hidden !important;
+
+  &.color-weak {
+    filter: invert(80%);
+  }
+
+  // &.gray-mode {
+  //   filter: grayscale(100%);
+  //   filter: progid:dximagetransform.microsoft.basicimage(grayscale=1);
+  // }
+}
+
+a:focus,
+a:active,
+button,
+div,
+svg,
+span {
+  outline: none !important;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px white inset !important;
+}
+
+:-webkit-autofill {
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+a {
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+p {
+  word-break: break-all;
+  margin: 0;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+[v-cloak] {
+  display: none;
+}
+// 清除浮动
+.clearfix::after {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+// 单行省略号
+.no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/** 状态 */
+.disabled {
+  color: @color-info;
+  cursor: not-allowed;
+}
+
+.link {
+  color: @color-primary;
+  cursor: pointer;
+}
+
+/** 颜色 */
+.color-primary {
+  color: @color-primary;
+}
+
+.color-success {
+  color: @color-success;
+}
+
+.color-warning {
+  color: @color-warning;
+}
+
+.color-danger {
+  color: @color-danger;
+}
+
+.color-info {
+  color: @color-info;
+}
