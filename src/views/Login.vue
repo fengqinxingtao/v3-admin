@@ -70,6 +70,7 @@ import http from '@/utils/http';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useIntervalFn } from '@vueuse/core';
+import { PageEnum } from '@/enums/app';
 
 const codeImgUrl = ref('');
 const loginFormRef = ref();
@@ -180,8 +181,8 @@ function login() {
     http
       .post('/authentication/login', params)
       .then((res) => {
-        store.dispatch('setLoginInfo', res.data);
-        router.replace('/dashboard');
+        store.dispatch('user/setLoginInfo', res.data);
+        router.replace(PageEnum.BASE_HOME);
       })
       .catch((err) => {
         if (err.code && err.code === 4005) {

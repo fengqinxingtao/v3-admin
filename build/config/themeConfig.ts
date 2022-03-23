@@ -1,5 +1,5 @@
 import { generate } from '@ant-design/colors';
-import { ThemeModeEnum } from '@/enums/app';
+import { ThemeModeEnum } from '../../src/enums/app';
 
 export const primaryColor = '#409EFF';
 

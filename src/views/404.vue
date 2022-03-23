@@ -10,11 +10,12 @@
 import { useRouter } from 'vue-router';
 
 import { Button } from 'ant-design-vue';
+import { PageEnum } from '@/enums/app';
 
 const router = useRouter();
 
 function goHome() {
-  router.replace('/dashboard');
+  router.replace(PageEnum.BASE_HOME);
 }
 </script>
 
@@ -31,8 +32,8 @@ function goHome() {
   .tip {
     margin-top: 20px;
     margin-bottom: 50px;
-    font-size: @font-size-medium;
-    color: @color-text-1;
+    font-size: 16px;
+    color: #333;
     padding: 0 20px;
   }
 }

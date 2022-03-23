@@ -31,9 +31,11 @@ module.exports = {
     'vue/script-setup-uses-vars': 'error',
     'vue/custom-event-name-casing': 'off',
     'vue/attribute-hyphenation': 'off',
+    'vue/max-attributes-per-line': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',

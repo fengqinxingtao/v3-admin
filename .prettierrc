@@ -4,7 +4,7 @@
   "singleQuote": true,
   "trailingComma": "all",
   "vueIndentScriptAndStyle": false,
-  "proseWrap": "never",
+  "proseWrap": "preserve",
   "singleAttributePerLine": true,
   "htmlWhitespaceSensitivity": "strict",
   "endOfLine": "auto"

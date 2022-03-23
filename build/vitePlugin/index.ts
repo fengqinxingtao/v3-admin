@@ -8,6 +8,7 @@ export function createVitePlugins(viteEnv: Record<string, string>, isBuild: bool
   const { VITE_LEGACY } = viteEnv;
 
   const vitePlugins: (Plugin | Plugin[])[] = [
+    configHtmlPlugin(viteEnv),
     // have to
     vue(),
   ];
@@ -21,9 +22,6 @@ export function createVitePlugins(viteEnv: Record<string, string>, isBuild: bool
         additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
       }),
     );
-
-  // vite-plugin-html
-  vitePlugins.push(configHtmlPlugin(viteEnv));
 
   //vite-plugin-theme
   vitePlugins.push(configThemePlugin(isBuild));

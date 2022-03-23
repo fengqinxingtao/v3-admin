@@ -1,7 +1,6 @@
 import { createStore } from 'vuex';
 import getters from './getters';
 
-console.log(getters);
 const modulesFiles = import.meta.globEager('./modules/*.ts');
 
 const modules = {};
@@ -10,6 +9,6 @@ for (const key in modulesFiles) {
 }
 
 export default createStore({
-  modules: modules,
-  getters: getters,
+  modules,
+  getters,
 });
