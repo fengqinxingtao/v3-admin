@@ -31,7 +31,8 @@
               </template>
             </a-input>
           </FormItem>
-          <FormItem v-if="enableSmsCode" prop="verifyCode">
+          <!-- <FormItem v-if="enableSmsCode" name="verifyCode"> -->
+          <FormItem name="verifyCode">
             <a-input
               v-model:value="loginForm.verifyCode"
               placeholder="短信验证码"
@@ -41,6 +42,7 @@
               <template #prefix> <SafetyOutlined /> </template>
               <template #addonAfter>
                 <a-button
+                  type="primary"
                   shape="round"
                   :disabled="count !== 0 || loginForm.captcha == null || loginForm.captcha.length < 4"
                   @click="getPhoneVerifyCode"
@@ -68,6 +70,7 @@ import { Device } from '@/utils/storage';
 import http from '@/utils/http';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { useIntervalFn } from '@vueuse/core';
 
 const codeImgUrl = ref(null);
 const loginFormRef = ref();
@@ -82,6 +85,18 @@ const loginForm = reactive({
   verifyCode: null,
 });
 const count = ref(0);
+const { pause: stopTimer, resume: startTimer } = useIntervalFn(
+  () => {
+    count.value--;
+    if (unref(count) <= 0) {
+      stopTimer();
+    }
+  },
+  1000,
+  {
+    immediate: false,
+  },
+);
 const enableSmsCode = ref(false);
 const loadingSubmit = ref(false);
 
@@ -152,24 +167,6 @@ function getCountDown() {
         startTimer();
       }
     });
-}
-
-let timer;
-function startTimer() {
-  stopTimer();
-  if (unref(count) <= 0) return;
-  timer = setInterval(() => {
-    count.value--;
-    if (unref(count) <= 0) {
-      stopTimer();
-    }
-  }, 1000);
-}
-function stopTimer() {
-  if (timer) {
-    clearInterval(timer);
-    this.timer = null;
-  }
 }
 
 const store = useStore();
