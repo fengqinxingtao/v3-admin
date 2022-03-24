@@ -2,7 +2,7 @@ import type { Menu, UserInfo } from '@/types/store';
 import type { AppRouteRecordRaw } from '@/types/vue-router';
 import type { RouteRecordName, RouteRecordRaw } from 'vue-router';
 
-import path from 'path';
+import path from 'path-browserify';
 import Router, { resetRouter } from '@/router';
 import { asyncRoutes, NotFoundRoute } from '@/router/routes';
 import http from '@/utils/http';
@@ -15,7 +15,7 @@ import { message as Message } from 'ant-design-vue';
  * 通过menu.url判断是否拥有菜单权限
  */
 function findRouteMenu(menuList: Menu[], route: AppRouteRecordRaw, basePath: string): Menu | undefined {
-  if (menuList == null || route == null || route.meta == null) return;
+  if (menuList == null || route == null) return;
 
   if (route.children && route.children.length) {
     // 父路由
@@ -86,6 +86,12 @@ const state: UserState = {
   permissionList: [], // 权限列表
 };
 
+const getters = {
+  user: (state: UserState) => state.user,
+  menuList: (state: UserState) => state.menuList,
+  permissionList: (state: UserState) => state.menuList,
+};
+
 const mutations = {
   setUser(state, user) {
     state.user = user;
@@ -125,7 +131,6 @@ const actions = {
   // 设置登录信息
   setLoginInfo({ commit, dispatch }, loginInfo: any) {
     if (loginInfo == null) return;
-
     // 保存登录菜单信息、权限信息
     if (loginInfo.resources && loginInfo.resources.length > 0) {
       // 提取权限。menuType=F
@@ -170,6 +175,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions,
 };

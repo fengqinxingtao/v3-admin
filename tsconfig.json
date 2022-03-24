@@ -15,7 +15,8 @@
     "noImplicitAny": false,
     "lib": ["esnext", "dom"],
     "types": [
-      "vite/client"
+      "vite/client",
+      "node"
     ],
     "baseUrl": ".",
     "paths": {

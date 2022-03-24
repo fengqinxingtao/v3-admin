@@ -33,7 +33,6 @@ export default function createPermissionGuard(router: Router) {
       next(redirectData);
       return;
     }
-
     if (store.getters['user/user'] == null) {
       try {
         // 刷新用户信息
