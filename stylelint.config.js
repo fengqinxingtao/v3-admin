@@ -1,7 +1,13 @@
 module.exports = {
   root: true,
   plugins: ['stylelint-order'],
-  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
+  extends: ['stylelint-config-recommended', 'stylelint-config-prettier'],
+  overrides: [
+    {
+      files: ['**/*.less'],
+      customSyntax: 'postcss-less',
+    },
+  ],
   rules: {
     'selector-pseudo-class-no-unknown': [
       true,
@@ -49,6 +55,8 @@ module.exports = {
       },
     ],
     'unit-no-unknown': [true, { ignoreUnits: ['rpx'] }],
+    'no-invalid-double-slash-comments': true,
+    'comment-empty-line-before': null,
     'order/order': [
       [
         'dollar-variables',

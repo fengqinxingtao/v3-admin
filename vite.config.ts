@@ -1,7 +1,8 @@
+import type { Plugin } from 'vite';
 import { defineConfig, loadEnv } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import legacy from '@vitejs/plugin-legacy';
 import { resolve } from 'path';
-import { createVitePlugins } from './build/vitePlugin';
-import { generateModifyVars } from './build/generate/generateModifyVars';
 
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir);
@@ -9,7 +10,29 @@ function pathResolve(dir: string) {
 
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd());
-  const isBuild = command === 'build';
+  const isBuild = command == 'build';
+  const vitePlugins: Plugin[] = [
+    {
+      name: 'plugin-html-env',
+      transformIndexHtml(html: string) {
+        return html.replace(/<%=\s+(\w+)\s+%>/g, (_match, key) => {
+          return `${env[key]}`;
+        });
+      },
+    },
+    // have to
+    vue(),
+  ];
+
+  // @vitejs/plugin-legacy
+  if (Boolean(env.VITE_LEGACY) && isBuild) {
+    vitePlugins.push(
+      legacy({
+        targets: ['ie >= 10'],
+        additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+      }),
+    );
+  }
 
   return {
     base: env.VITE_PUBLIC_PATH,
@@ -41,12 +64,28 @@ export default defineConfig(({ command, mode }) => {
     css: {
       preprocessorOptions: {
         less: {
-          modifyVars: generateModifyVars(),
+          modifyVars: {
+            hack: `true; @import (reference) "${pathResolve(
+              'src/design/color.less',
+            )}";@import (reference) "${pathResolve('src/design/var.less')}";`,
+            'primary-color': '#1890ff',
+            'link-color': '#1890ff',
+            'success-color': '#52c41a',
+            'warning-color': '#faad14',
+            'error-color': '#f5222d',
+            'heading-color': 'rgba(0, 0, 0, 0.85)',
+            'text-color': 'rgba(0, 0, 0, 0.65)',
+            'text-color-secondary': 'rgba(0, 0, 0, 0.45)',
+            'disabled-color': 'rgba(0, 0, 0, 0.25)',
+            'border-radius-base': '4px',
+            'border-color-base': '#d9d9d9',
+            'box-shadow-base': '0 2px 8px rgba(0, 0, 0, 0.15)',
+          },
           javascriptEnabled: true,
         },
       },
     },
-    plugins: createVitePlugins(env, isBuild),
+    plugins: vitePlugins,
     build: {
       target: 'es2015',
       minify: 'terser',

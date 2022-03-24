@@ -1,17 +1,23 @@
-import { SidebarStatus, ThemeMode } from '@/utils/storage';
+import { SiderStatus, ThemeMode } from '@/utils/storage';
 import { AppDeviceEnum, ThemeModeEnum } from '@/enums/app';
 
 interface AppState {
+  // 系统主题
   themeMode?: ThemeModeEnum;
+  // 页面切换加载中
   pageLoading: boolean;
-  sidebarCollapsed: boolean;
+  // 侧边栏是否收起
+  siderCollapsed: boolean;
+  // 混合侧边栏是否固定
+  mixSideFixed: boolean;
   device: AppDeviceEnum;
 }
 
 const state: AppState = {
   themeMode: undefined,
   pageLoading: false,
-  sidebarCollapsed: true,
+  siderCollapsed: true,
+  mixSideFixed: false,
   device: AppDeviceEnum.DESKTOP,
 };
 
@@ -22,8 +28,11 @@ const getters = {
   pageLoading(state: AppState): boolean {
     return state.pageLoading;
   },
-  sidebarCollapsed(state: AppState): boolean {
-    return state.sidebarCollapsed;
+  siderCollapsed(state: AppState): boolean {
+    return state.siderCollapsed;
+  },
+  mixSideFixed(state: AppState): boolean {
+    return state.mixSideFixed;
   },
   isMobile(state: AppState): boolean {
     return state.device == AppDeviceEnum.MODILE;
@@ -36,11 +45,11 @@ const mutations = {
     ThemeMode.set(mode);
   },
   toggleSidebar: (state: AppState) => {
-    state.sidebarCollapsed = !state.sidebarCollapsed;
-    if (state.sidebarCollapsed) {
-      SidebarStatus.set(1);
+    state.siderCollapsed = !state.siderCollapsed;
+    if (state.siderCollapsed) {
+      SiderStatus.set(1);
     } else {
-      SidebarStatus.set(0);
+      SiderStatus.set(0);
     }
   },
   toggleDevice: (state, device: AppDeviceEnum) => {

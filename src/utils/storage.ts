@@ -7,7 +7,7 @@ const SystemKey = import.meta.env.VITE_BASE_URL.toUpperCase().replaceAll('/', ''
 const KEY_TOKEN = 'AHF_' + SystemKey + '_TOKEN';
 /** localStorage */
 const KEY_DEVICE = 'AHF_' + SystemKey + '_DEVICE';
-const KEY_SIDEBAR = 'AHF_' + SystemKey + '_SIDEBAR';
+const KEY_SIDER = 'AHF_' + SystemKey + '_SIDEBAR';
 const KEY_THEME_MODE = 'AHF_' + SystemKey + '_THEME_MODE';
 
 /** token */
@@ -37,16 +37,16 @@ export const Device = {
 };
 
 /** 侧边栏状态 */
-export const SidebarStatus = {
+export const SiderStatus = {
   get(): boolean {
-    const k = localStorage.getItem(KEY_SIDEBAR);
+    const k = localStorage.getItem(KEY_SIDER);
     return k ? !!+k : true;
   },
   set(flag: number) {
-    localStorage.setItem(KEY_SIDEBAR, flag + '');
+    localStorage.setItem(KEY_SIDER, flag + '');
   },
   clear() {
-    localStorage.removeItem(KEY_SIDEBAR);
+    localStorage.removeItem(KEY_SIDER);
   },
 };
 
