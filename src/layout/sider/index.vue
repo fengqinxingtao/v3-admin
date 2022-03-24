@@ -16,6 +16,12 @@
     <div class="app-logo" :class="themeMode" @click="goHome">
       <img src="@/assets/logo.png" />
     </div>
+
+    <Scrollbar class="sider-scrollbar">
+      <div style="height: 800px; wdith: 100px; backgroud: red;"></div>
+    </Scrollbar>
+
+    <SiderTrigger class="sider-trigger" />
   </div>
 </template>
 
@@ -26,10 +32,15 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import clickOutside from '@/directives/clickOutside';
 import { PageEnum, SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH, MENU_WIDTH } from '@/enums/app';
+import Scrollbar from '@/components/Scrollbar';
+import SiderTrigger from './trigger.vue';
 
 export default defineComponent({
   name: 'LayoutSider',
   directives: { clickOutside },
+  components: {
+    SiderTrigger, Scrollbar
+  },
   setup() {
     const openMenu = ref(false);
     const childrenMenus = ref<Menu[]>([]);
@@ -158,5 +169,32 @@ export default defineComponent({
     width: @logo-width;
     height: @logo-width;
   }
+}
+
+.sider-scrollbar {
+  width: 100%;
+  height: calc(100% - @header-height - 38px);
+  .scrollbar__wrap {
+    margin-bottom: 18px !important;
+    overflow-x: hidden;
+  }
+
+  .scrollbar__view {
+    box-sizing: border-box;
+  }
+}
+
+.sider-trigger {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+  cursor: pointer;
+  background-color: @trigger-dark-bg-color;
+  height: 36px;
+  line-height: 36px;
 }
 </style>

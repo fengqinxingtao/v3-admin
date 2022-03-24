@@ -7,3 +7,5 @@ declare interface PromiseFn<T = any, R = T> {
 }
 
 declare type TargetContext = '_self' | '_blank';
+
+declare type ElRef<T extends HTMLElement = HTMLDivElement> = T | null;

@@ -16,7 +16,7 @@ interface AppState {
 const state: AppState = {
   themeMode: undefined,
   pageLoading: false,
-  siderCollapsed: true,
+  siderCollapsed: false,
   mixSideFixed: false,
   device: AppDeviceEnum.DESKTOP,
 };

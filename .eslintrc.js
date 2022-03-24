@@ -23,8 +23,9 @@ module.exports = {
     'no-unused-vars': [
       'error',
       {
-        args: 'none',
-        // argsIgnorePattern: '^_',
+        var: 'all',
+        // args: 'after-used',
+        argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
       },
     ],
@@ -32,6 +33,7 @@ module.exports = {
     'vue/custom-event-name-casing': 'off',
     'vue/attribute-hyphenation': 'off',
     'vue/max-attributes-per-line': 'off',
+    'vue/multi-word-component-names': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': 'off',
@@ -40,8 +42,9 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [
       'off',
       {
-        args: 'none',
-        // argsIgnorePattern: '^_',
+        var: 'all',
+        // args: 'after-used',
+        argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
       },
     ],
