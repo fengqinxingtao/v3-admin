@@ -23,7 +23,6 @@ module.exports = {
     'no-unused-vars': [
       'error',
       {
-        args: 'none',
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
       },
@@ -40,7 +39,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
-        args: 'none',
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
       },
