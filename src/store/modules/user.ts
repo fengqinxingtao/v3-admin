@@ -1,12 +1,79 @@
 import type { Menu, UserInfo } from '@/types/store';
+import type { AppRouteRecordRaw } from '@/types/vue-router';
+import type { RouteRecordName, RouteRecordRaw } from 'vue-router';
 
-import { resetRouter } from '@/router';
+import path from 'path';
+import Router, { resetRouter } from '@/router';
+import { asyncRoutes, NotFoundRoute } from '@/router/routes';
 import http from '@/utils/http';
 import { Token } from '@/utils/storage';
 import { listToTree } from '@/utils/tree';
 
 import { message as Message } from 'ant-design-vue';
 
+/**
+ * 通过menu.url判断是否拥有菜单权限
+ */
+function findRouteMenu(menuList: Menu[], route: AppRouteRecordRaw, basePath: string): Menu | undefined {
+  if (menuList == null || route == null || route.meta == null) return;
+
+  if (route.children && route.children.length) {
+    // 父路由
+    return menuList.find((o) => o.url && o.url.toLowerCase().startsWith(path.join(basePath, route.path).toLowerCase()));
+  } else if (route.meta && route.meta.parentUrl) {
+    // 叶子路由
+    if (typeof route.meta.parentUrl === 'string') {
+      const pStr: string = route.meta.parentUrl.toLowerCase();
+      return menuList.find((o) => o.url && pStr === o.url.toLowerCase());
+    } else if (Array.isArray(route.meta.parentUrl)) {
+      const temp: string[] = route.meta.parentUrl.map((e) => e.toLowerCase());
+      return menuList.find((o) => o.url && temp.indexOf(o.url.toLowerCase()) > -1);
+    }
+  } else {
+    // 子页面路由
+    return menuList.find((o) => o.url && path.join(basePath, route.path).toLowerCase() === o.url.toLowerCase());
+  }
+  return;
+}
+
+/**
+ * 过滤路由
+ */
+function filterAsyncRoutes(asyncRoutes: AppRouteRecordRaw[], menuList: Menu[], basePath = '/'): AppRouteRecordRaw[] {
+  return asyncRoutes.filter((route) => {
+    let menu = findRouteMenu(menuList, route, basePath);
+    if (menu) {
+      if (route.children && route.children.length) {
+        route.children = filterAsyncRoutes(
+          route.children,
+          menuList,
+          path.join(basePath, route.path),
+        ) as RouteRecordRaw[];
+        // 添加404
+        route.children.push({
+          ...NotFoundRoute,
+          name: (NotFoundRoute.name?.toString() +
+            '_' +
+            (route.name || path.basename(route.path)).toString()) as RouteRecordName,
+        } as RouteRecordRaw);
+      } else {
+        // 设置标题
+        if (route.meta) route.meta.title = menu.menuName;
+        // 设置图标 FIXME
+        if (route.meta && route.meta.icon) {
+          if (menu.parentId === 0) {
+            menu.icon = route.meta.icon;
+          } else {
+            menu = menuList.find((o) => o.menuId === menu!.parentId);
+            if (menu) menu.icon = route.meta.icon;
+          }
+        }
+      }
+      return true;
+    }
+    return false;
+  });
+}
 interface UserState {
   user?: UserInfo;
   menuList: Menu[];
@@ -56,7 +123,7 @@ const actions = {
     });
   },
   // 设置登录信息
-  setLoginInfo({ commit, dispatch }, loginInfo) {
+  setLoginInfo({ commit, dispatch }, loginInfo: any) {
     if (loginInfo == null) return;
 
     // 保存登录菜单信息、权限信息
@@ -67,13 +134,13 @@ const actions = {
         loginInfo.resources.filter((o) => o.menuType === 'F' || o.menuFlag !== '0'),
       );
       // 提取菜单
-      let menuList = loginInfo.resources.filter((o) => o.menuFlag === '0');
+      let menuList: Menu[] = loginInfo.resources.filter((o) => o.menuFlag === '0');
       // 过滤路由
-      // const accessRoutes = filterAsyncRoutes(asyncRoutes, menuList);
-      // accessRoutes.forEach((route) => {
-      //   // 添加授权路由
-      //   Router.addRoute(route);
-      // });
+      const accessRoutes = filterAsyncRoutes(asyncRoutes, menuList);
+      accessRoutes.forEach((route) => {
+        // 添加授权路由
+        Router.addRoute(route as RouteRecordRaw);
+      });
 
       // 转成树状结构
       menuList = listToTree(menuList, {
@@ -82,9 +149,6 @@ const actions = {
       });
       // 没有url的菜单
       menuList.forEach((item) => {
-        if (!item.url && item.children && item.children.length) {
-          item.subUrl = item.children[0].url;
-        }
         // 顶级菜单 - 添加默认图标
         if (item.parentId === 0 && !item.icon) {
           item.icon = 'el-icon-s-grid';

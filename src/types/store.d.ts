@@ -28,4 +28,6 @@ export interface Menu {
   menuType: string;
 
   icon?: string;
+
+  children?: Menu[];
 }
