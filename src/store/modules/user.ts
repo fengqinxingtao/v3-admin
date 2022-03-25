@@ -120,6 +120,7 @@ const actions = {
         .then(() => {
           dispatch('resetToken');
           resetRouter();
+          window.location.reload();
 
           resolve(null);
         })
