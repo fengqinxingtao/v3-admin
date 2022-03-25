@@ -18,6 +18,7 @@
     </div>
 
     <Scrollbar class="sider-scrollbar">
+      <Icon icon="appstore-outlined" spin color="red"></Icon>
       <div style="height: 800px; wdith: 100px; backgroud: red;"></div>
     </Scrollbar>
 
@@ -33,13 +34,14 @@ import { useRouter } from 'vue-router';
 import clickOutside from '@/directives/clickOutside';
 import { PageEnum, SIDE_BAR_MINI_WIDTH, SIDE_BAR_SHOW_TIT_MINI_WIDTH, MENU_WIDTH } from '@/enums/app';
 import Scrollbar from '@/components/Scrollbar';
+import Icon from '@/components/Icon';
 import SiderTrigger from './trigger.vue';
 
 export default defineComponent({
   name: 'LayoutSider',
   directives: { clickOutside },
   components: {
-    SiderTrigger, Scrollbar
+    SiderTrigger, Scrollbar, Icon
   },
   setup() {
     const openMenu = ref(false);
