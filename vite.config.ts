@@ -45,10 +45,12 @@ export default defineConfig(({ command, mode }) => {
           changeOrigin: true,
           logLevel: env.VITE_PROXY_LOG_LEVEL,
         },
-        ['^' + env.VITE_BASE_URL]: {
-          target: env.VITE_PROXY_URL,
+        ['^/' + env.VITE_BASE_URL]: {
+          target: 'http://192.168.110.88:8888',
+          // target: env.VITE_PROXY_URL,
           changeOrigin: true,
           logLevel: env.VITE_PROXY_LOG_LEVEL,
+          rewrite: (path) => path.replace(/^\/fund/, '')
         },
         // '^/resources': process.env.VITE_PROXY_URL,
       },

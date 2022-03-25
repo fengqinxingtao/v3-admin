@@ -4,6 +4,8 @@ export const PAGE_NOT_FOUND_NAME = 'PageNotFound';
 
 export const PARENT_LAYOUT_NAME = 'ParentLayout';
 
+export const PAGE_STABLE_MANAGE = 'stableManage'
+
 /**
  * @description: default layout
  */
