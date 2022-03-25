@@ -7,14 +7,8 @@ export default defineComponent({
   name: 'Bar',
   props: {
     vertical: Boolean,
-    size: {
-      type: String,
-      default: '',
-    },
-    move: {
-      type: Number,
-      default: 0,
-    },
+    size: String,
+    move: Number,
   },
 
   setup(props) {

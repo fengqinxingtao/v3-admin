@@ -10,6 +10,7 @@ import router from '@/router';
 import store from '@/store';
 import { setupRouterGuard } from '@/router/guard';
 
+
 const app = createApp(App);
 app.use(router).use(store);
 app.use(Input).use(Button);
